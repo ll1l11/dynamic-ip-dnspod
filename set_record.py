@@ -24,6 +24,7 @@ def get_httpdns_ip(domain):
     body = r.text
     if body:
         ip = body.split(';')[0]
+        logging.info("%s 's ip is: %s by HTTP DNS", domain, ip)
         return ip
 
 
@@ -43,7 +44,7 @@ def get_record(client):
 def get_new_ip():
     """获取要设置的IP"""
     with open('ip.txt') as f:
-        return f.read()
+        return f.read().strip()
 
 
 def is_same(domain, ip):
