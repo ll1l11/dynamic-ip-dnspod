@@ -7,7 +7,7 @@ import config
 from dnspod_api import DNSPodClient
 
 logging.basicConfig(filename='ip.log', level=logging.DEBUG)
-logging.debug('this is debug info %s', datetime.now())
+logging.info('\n\n ******* push ip exec start at: %s *******', datetime.now())
 
 
 def read_config():
@@ -64,6 +64,7 @@ def set_ip():
     )
     domain = '{0}.{1}'.format(client.sub_domain, client.domain)
     new_ip = get_new_ip()
+    logging.info('new_ip: %s', new_ip)
     if is_same(domain, new_ip):
         logging.info('IP和原来IP相同 %s %s', domain, new_ip)
         return
@@ -77,6 +78,7 @@ def set_ip():
         return
 
     record_id, record_ip = record
+    logging.info('record_id: %s, record_ip: %s', record_id, record_ip)
     if record_ip != new_ip:
         # 情况2: 域名IP和ip.txt内容不一样, 则修改
         logging.info('record_ip: %s new_ip: %s, modify', record_ip, new_ip)
