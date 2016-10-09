@@ -5,6 +5,7 @@ from datetime import datetime
 import requests
 
 import config
+import utils
 from dnspod_api import DNSPodClient
 
 logging.basicConfig(filename='push-ip.log', level=logging.DEBUG)
@@ -72,6 +73,11 @@ def set_ip():
     domain = '{0}.{1}'.format(client.sub_domain, client.domain)
     new_ip = get_new_ip()
     logging.info('new_ip: %s', new_ip)
+
+    if not utils.validate_ip(new_ip):
+        logging.error('new_ip: %s format error', new_ip)
+        assert False
+
     if is_same(domain, new_ip):
         logging.info('IP和原来IP相同 %s %s', domain, new_ip)
         return
