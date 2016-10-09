@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
+import re
 from datetime import datetime
 import requests
 
 import config
 from dnspod_api import DNSPodClient
 
-logging.basicConfig(filename='ip.log', level=logging.DEBUG)
+logging.basicConfig(filename='push-ip.log', level=logging.DEBUG)
 logging.info('\n\n ******* push ip exec start at: %s *******', datetime.now())
 
 
@@ -54,8 +55,14 @@ def is_same(domain, ip):
     return httpdns_ip == ip
 
 
+def check_token_format(token):
+    m = re.match('\d+,\w+$', token)
+    return m is not None
+
+
 def set_ip():
     conf = read_config()
+    assert check_token_format(conf['TOKEN'])
     client = DNSPodClient(
         conf['TOKEN'],
         conf['USER_AGENT'],

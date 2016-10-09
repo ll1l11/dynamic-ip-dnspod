@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 TOKEN = '文档:https://support.dnspod.cn/Kb/showarticle/tsid/227'
-USER_AGENT = '程序英文名称/版本(联系邮箱)，比如：MJJ DDNS Client/1.0.0 (shallwedance@126.com)'
+# USER_AGENT = '程序英文名称/版本(联系邮箱)，比如：MJJ DDNS Client/1.0.0 (shallwedance@126.com)'
+USER_AGENT = 'Push IP Client/1.0.0 (联系邮箱)'
 
-RECORD_ID = ''
 DOMAIN = ''
 SUB_DOMAIN = ''  # 不包含域名，比如test.codeif.com, 则填写test
