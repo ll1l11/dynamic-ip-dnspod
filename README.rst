@@ -40,6 +40,6 @@ get_record_ip() 保存的文件保存(时间|ip), 如果时间间隔大于某个
 
     auto eth0
     iface eth0 inet dhcp
-    post-up /home/ubuntu/test.sh
+    post-up /home/ubuntu/push-ip-to-dnspod/push-ip.sh
 
 - `mac clear DNS Cache <https://support.apple.com/en-mn/HT202516>`_
