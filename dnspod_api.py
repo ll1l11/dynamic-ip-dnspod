@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import config
-
+import logging
 import requests
 
 
@@ -25,7 +24,8 @@ class DNSPodClient(object):
         }
         data.update(pub_data)
         r = requests.post(url, data=data, headers=self.headers)
-        print(r.text)
+        logging.info('DNSPodClient post data:\nurl: %s\ndata: %s\n'
+                     'response: %s', url, data, r.text)
         return r.json()
 
     def version(self):

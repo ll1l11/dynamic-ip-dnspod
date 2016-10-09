@@ -9,6 +9,7 @@ from dnspod_api import DNSPodClient
 logging.basicConfig(filename='ip.log', level=logging.DEBUG)
 logging.debug('this is debug info %s', datetime.now())
 
+
 def read_config():
     conf = {}
     for key in dir(config):
@@ -38,7 +39,7 @@ def get_record(client):
     if not records:
         return
     record = records[0]
-    return  record['id'], record['value']
+    return record['id'], record['value']
 
 
 def get_new_ip():
@@ -74,7 +75,6 @@ def set_ip():
         result = client.record_create(new_ip)
         logging.info('record create: %s', result)
         return
-
 
     record_id, record_ip = record
     if record_ip != new_ip:
