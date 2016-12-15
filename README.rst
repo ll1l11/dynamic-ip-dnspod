@@ -6,14 +6,17 @@ push-ip-to-dnspod
 push-ip.sh的配置
 ----------------
 
+- python的版本 
+
 默认使用python3， 如果使用python， 将push-ip.sh的下面一行::
 
     python3 set_record.py 2>&1 | tee -a $LOG_PATH
 
 的python3替换为python， 并安装requests
 
+- 获取指定网卡的IP
 
-如果要上传指定网卡的IP, 例如eth0, 将::
+例如eth0, 将::
 
     $(which ifconfig) | awk ...
 
