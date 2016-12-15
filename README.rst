@@ -58,3 +58,6 @@ config.py的配置
 - `API说明 <https://www.dnspod.cn/docs/info.html>`_
 - `获取token <https://support.dnspod.cn/Kb/showarticle/tsid/227>`_
 -  `使用httpdns更新域名对应的ip <https://www.dnspod.cn/httpdns/guide>`_
+
+
+- 使用httpdns查询的IP有延时， 是否有必要使用dnspoad的api去查询呢？
