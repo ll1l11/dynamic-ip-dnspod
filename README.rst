@@ -1,45 +1,57 @@
 push-ip-to-dnspod
-============
+==================
 
 使用dnspod api将主机IP设置到某个 域名下
 
-`API说明 <https://www.dnspod.cn/docs/info.html>`_
+push-ip.sh的配置
+----------------
 
-`获取token <https://support.dnspod.cn/Kb/showarticle/tsid/227>`_
+默认使用python3， 如果使用python， 将push-ip.sh的下面一行::
 
-crontab.sh中ifconfig需要使用绝对路径, 可以通过 which ifconfig获取
+    python3 set_record.py 2>&1 | tee -a $LOG_PATH
 
-config.py.example
-dnspod_api.py
-crontab.sh
-README.rst
-
-定时脚本(crontab -e), 一分钟同步一次:
-
-::
-
-    * * * * * cd $HOME/push-ip-to-dnspod && bash ip.sh
+的python3替换为python， 并安装requests
 
 
-使用httpdns更新域名对应的ip
-https://www.dnspod.cn/httpdns/guide
+如果要上传指定网卡的IP, 例如eth0, 将::
 
-get_record_ip() 保存的文件保存(时间|ip), 如果时间间隔大于某个值(默认10分钟)更新远程IP
+    $(which ifconfig) | awk ...
+
+改为::
+
+    $(which ifconfig) eth0 | awk ...
 
 
-在virtualenv中使用虚拟环境:
+config.py的配置
+---------------
 
-.. code:: bash
+复制config.py.example，并完善信息
 
-    #!/usr/bin/bash
-    source  $WORKON_HOME/dev/bin/activate  &&  which python
-    
--  `网卡启动后执行脚本 <http://unix.stackexchange.com/questions/91245/execute-custom-script-when-an-interface-gets-connected>`_， /etc/network/interface
 
-.. code:: bash
+忘记启动后上传IP信息(推荐)
+--------------------------
+
+-  `网卡启动后执行脚本 <http://unix.stackexchange.com/questions/91245/execute-custom-script-when-an-interface-gets-connected>`_ 
+  
+编辑 /etc/network/interface
+
+.. code-block:: bash
 
     auto eth0
     iface eth0 inet dhcp
     post-up /home/ubuntu/push-ip-to-dnspod/push-ip.sh
 
+定时任务上传IP信息(不推荐）
+--------------------------
+
+.. code::
+
+    * * * * * cd $HOME/push-ip-to-dnspod && bash ip.sh
+
+
+脚本中ifconfig要使用绝对路径可以用$(which ifconfig), 参见push-ip.sh
+
 - `mac clear DNS Cache <https://support.apple.com/en-mn/HT202516>`_
+- `API说明 <https://www.dnspod.cn/docs/info.html>`_
+- `获取token <https://support.dnspod.cn/Kb/showarticle/tsid/227>`_
+-  `使用httpdns更新域名对应的ip <https://www.dnspod.cn/httpdns/guide>`_
