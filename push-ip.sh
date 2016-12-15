@@ -16,4 +16,4 @@ $(which ifconfig) | awk '$1=="inet" {print $2}' | grep -v '127.0.0.1' | sed 's/a
 # $(which ifconfig) eth0 | awk '$1=="inet" {print $2}' | grep -v '127.0.0.1' | sed 's/addr://g' > ip.txt
 # get public ip # dig +short myip.opendns.com @resolver1.opendns.com > "$CURDIR/ip.txt"
 
-source "/home/ubuntu/.virtualenvs/py3/bin/activate" >> $LOG_PATH 2>&1  && python set_record.py 2>&1 | tee -a $LOG_PATH
+python set_record.py 2>&1 | tee -a $LOG_PATH
