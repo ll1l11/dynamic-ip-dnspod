@@ -2,10 +2,10 @@
 import logging
 import re
 from datetime import datetime
-import requests
+
 
 import config
-import utils
+from utils import validate_ip, request, urlencode
 from dnspod_api import DNSPodClient
 
 logging.basicConfig(filename='push-ip.log', level=logging.DEBUG)
@@ -21,12 +21,11 @@ def read_config():
 
 
 def get_httpdns_ip(domain):
-    url = 'http://119.29.29.29/d'
     params = {'dn': domain}
-    r = requests.get(url, params=params)
-    body = r.text
+    url = 'http://119.29.29.29/d?{}'.format(urlencode(params))
+    body = request(url)
     if body:
-        ip = body.split(';')[0]
+        ip = str(body).split(';')[0]
         logging.info("%s 's ip is: %s by HTTP DNS", domain, ip)
         return ip
 
@@ -47,7 +46,8 @@ def get_record(client):
 def get_new_ip():
     """获取要设置的IP"""
     with open('ip.txt') as f:
-        return f.read().strip()
+        for line in f:
+            return line.strip()
 
 
 def is_same(domain, ip):
@@ -74,7 +74,7 @@ def set_ip():
     new_ip = get_new_ip()
     logging.info('new_ip: %s', new_ip)
 
-    if not utils.validate_ip(new_ip):
+    if not validate_ip(new_ip):
         logging.error('new_ip: %s format error', new_ip)
         assert False
 

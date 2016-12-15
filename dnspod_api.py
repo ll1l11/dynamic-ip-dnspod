@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
-import requests
+import json
+from utils import request
 
 
 class DNSPodClient(object):
@@ -23,10 +24,10 @@ class DNSPodClient(object):
             'error_on_empty': 'no',
         }
         data.update(pub_data)
-        r = requests.post(url, data=data, headers=self.headers)
+        content = request(url, data, self.headers)
         logging.info('DNSPodClient post data:\nurl: %s\ndata: %s\n'
-                     'response: %s', url, data, r.text)
-        return r.json()
+                     'response: %s', url, data, content)
+        return json.loads(content)
 
     def version(self):
         path = '/Info.Version'
